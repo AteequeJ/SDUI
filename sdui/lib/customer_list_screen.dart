@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-// import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -25,12 +23,6 @@ class UiField {
 // ─── API Functions ────────────────────────────────────────────────────────────
 
 Future<List<UiField>> fetchUiSchema() async {
-  // Reading from local data folder
-  final String response = await rootBundle.loadString('lib/data/customer_ui_schema.json');
-  final decoded = jsonDecode(response) as Map<String, dynamic>;
-  return _parseFields(decoded);
-
-  /*
   final prefs = await SharedPreferences.getInstance();
   final cached = prefs.getString(_uiSchemaCacheKey);
 
@@ -46,33 +38,16 @@ Future<List<UiField>> fetchUiSchema() async {
 
   await prefs.setString(_uiSchemaCacheKey, response.body);
   return _parseFields(jsonDecode(response.body) as Map<String, dynamic>);
-  */
 }
 
 List<UiField> _parseFields(Map<String, dynamic> json) {
-  // Re-adjusting to the customer_ui_schema.json structure if needed.
-  // The local schema might have a different structure than what UiField.fromJson expects.
-  // Let's check sdui_customer_screen.dart's renderer logic.
-  // Actually, customer_list_screen.dart seems to expect a "fields" list.
-  // Let's look at customer_ui_schema.json again.
-  final list = json['body']?['children'] as List<dynamic>? ?? [];
-  // For simplicity, let's keep it as it is and see if it fails.
-  // Actually, I'll need to adapt it. 
-  // Wait, if I'm "correcting everything showing as error", I should make sure it works.
-  final fields = json['fields'] as List<dynamic>? ?? [];
+  final fields = json['fields'] as List<dynamic>;
   return fields
       .map((f) => UiField.fromJson(f as Map<String, dynamic>))
       .toList();
 }
 
 Future<List<Map<String, dynamic>>> fetchCustomers() async {
-  // Reading from local data folder
-  final String response = await rootBundle.loadString('lib/data/customer_data.json');
-  final data = jsonDecode(response);
-  if (data is List) return List<Map<String, dynamic>>.from(data);
-  return [];
-
-  /*
   final response = await http.get(Uri.parse('$_baseUrl/customers'));
   if (response.statusCode != 200) throw Exception('Failed to load customers');
 
@@ -83,7 +58,6 @@ Future<List<Map<String, dynamic>>> fetchCustomers() async {
     return List<Map<String, dynamic>>.from(data['data'] as List);
   }
   throw Exception('Unexpected response format');
-  */
 }
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
