@@ -1,0 +1,9 @@
+[
+  { "id": "c001", "name": "John Doe", "phone": "+91 99999 99999", "status": "Active", "email": "john@platera.in", "joinedAt": "2024-01-15", "orders": 3 },
+  { "id": "c002", "name": "Jane Smith", "phone": "+91 88888 88888", "status": "Inactive", "email": "jane@platera.in", "joinedAt": "2024-02-20", "orders": 1 },
+  { "id": "c003", "name": "Alice Johnson", "phone": "+91 77777 77777", "status": "Active", "email": "alice@platera.in", "joinedAt": "2024-03-10", "orders": 0 },
+  { "id": "c004", "name": "Bob Williams", "phone": "+91 66666 66666", "status": "Active", "email": "bob@platera.in", "joinedAt": "2024-04-05", "orders": 5 },
+  { "id": "c005", "name": "Charlie Brown", "phone": "+91 55555 55555", "status": "Inactive", "email": "charlie@platera.in", "joinedAt": "2024-05-18", "orders": 2 },
+  { "id": "c006", "name": "Diana Prince", "phone": "+91 44444 44444", "status": "Active", "email": "diana@platera.in", "joinedAt": "2024-06-22", "orders": 4 },
+  { "id": "c007", "name": "Ethan Hunt", "phone": "+91 33333 33333", "status": "Pending", "email": "ethan@platera.in", "joinedAt": "2024-07-30", "orders": 1 }
+]

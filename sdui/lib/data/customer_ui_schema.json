@@ -1,0 +1,270 @@
+{
+  "type": "screen",
+  "id": "customer_list_screen",
+  "meta": {
+    "version": 2,
+    "cachePolicy": {
+      "ttl": 300,
+      "strategy": "stale-while-revalidate"
+    },
+    "refreshOnFocus": true
+  },
+  "appBar": {
+    "type": "appBar",
+    "title": "Customers",
+    "elevation": 0,
+    "backgroundColor": "#FFFFFF",
+    "foregroundColor": "#1A1A2E",
+    "actions": [
+      {
+        "type": "iconButton",
+        "id": "search_toggle",
+        "icon": "search",
+        "tooltip": "Search",
+        "onClick": {
+          "type": "toggleVisibility",
+          "target": "search_bar"
+        }
+      }
+    ]
+  },
+  "body": {
+    "type": "column",
+    "mainAxisSize": "max",
+    "children": [
+      {
+        "type": "searchBar",
+        "id": "search_bar",
+        "visible": false,
+        "placeholder": "Search by name or phone…",
+        "style": {
+          "margin": {
+            "horizontal": 16,
+            "vertical": 8
+          },
+          "borderRadius": 12,
+          "backgroundColor": "#F5F5F5"
+        },
+        "onSearch": {
+          "type": "reload",
+          "queryParam": "search"
+        }
+      },
+      {
+        "type": "chipGroup",
+        "id": "status_filters",
+        "style": {
+          "padding": {
+            "horizontal": 16,
+            "vertical": 8
+          }
+        },
+        "chips": [
+          {
+            "id": "chip_all",
+            "label": "All",
+            "value": "all"
+          },
+          {
+            "id": "chip_active",
+            "label": "✓ Active",
+            "value": "Active",
+            "color": "#22C55E"
+          },
+          {
+            "id": "chip_inactive",
+            "label": "✕ Inactive",
+            "value": "Inactive",
+            "color": "#EF4444"
+          },
+          {
+            "id": "chip_pending",
+            "label": "⏳ Pending",
+            "value": "Pending",
+            "color": "#F59E0B"
+          }
+        ],
+        "onSelect": {
+          "type": "reload",
+          "queryParam": "status"
+        }
+      },
+      {
+        "type": "expanded",
+        "child": {
+          "type": "list",
+          "id": "customer_list",
+          "style": {
+            "padding": {
+              "all": 16
+            }
+          },
+          "emptyState": {
+            "type": "emptyState",
+            "icon": "person_search",
+            "title": "No customers found",
+            "subtitle": "Try a different search or filter."
+          },
+          "itemTemplate": {
+            "type": "container",
+            "id": "customer_card",
+            "style": {
+              "backgroundColor": "#FFFFFF",
+              "borderRadius": 16,
+              "padding": {
+                "all": 14
+              },
+              "margin": {
+                "bottom": 12
+              },
+              "shadow": {
+                "blur": 10,
+                "color": "#1A000000",
+                "offsetY": 3
+              }
+            },
+            "onClick": {
+              "type": "navigate",
+              "route": "/customer-details",
+              "params": {
+                "id": "{id}",
+                "name": "{name}"
+              }
+            },
+            "child": {
+              "type": "column",
+              "style": {
+                "crossAxisAlignment": "start"
+              },
+              "children": [
+                {
+                  "type": "row",
+                  "style": {
+                    "crossAxisAlignment": "center"
+                  },
+                  "children": [
+                    {
+                      "type": "avatar",
+                      "initials": "{initials}",
+                      "size": 52,
+                      "style": {
+                        "backgroundColor": "{avatarColor}",
+                        "textColor": "#FFFFFF",
+                        "fontSize": 18,
+                        "fontWeight": "bold"
+                      }
+                    },
+                    {
+                      "type": "spacer",
+                      "width": 14
+                    },
+                    {
+                      "type": "expanded",
+                      "child": {
+                        "type": "column",
+                        "style": {
+                          "crossAxisAlignment": "start"
+                        },
+                        "children": [
+                          {
+                            "type": "text",
+                            "value": "{name}",
+                            "style": {
+                              "fontSize": 15,
+                              "fontWeight": "bold",
+                              "color": "#1A1A2E",
+                              "letterSpacing": 0.1
+                            }
+                          },
+                          {
+                            "type": "spacer",
+                            "height": 4
+                          },
+                          {
+                            "type": "text",
+                            "value": "{phone}",
+                            "style": {
+                              "fontSize": 13,
+                              "color": "#6B7280"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "column",
+                      "style": {
+                        "crossAxisAlignment": "end"
+                      },
+                      "children": [
+                        {
+                          "type": "badge",
+                          "value": "{status}",
+                          "style": {
+                            "backgroundColor": "{statusColor}",
+                            "textColor": "{statusTextColor}",
+                            "fontSize": 11,
+                            "fontWeight": "semibold",
+                            "borderRadius": 20,
+                            "padding": {
+                              "horizontal": 10,
+                              "vertical": 5
+                            }
+                          }
+                        },
+                        {
+                          "type": "spacer",
+                          "height": 5
+                        },
+                        {
+                          "type": "text",
+                          "value": "{joinedAt}",
+                          "style": {
+                            "fontSize": 11,
+                            "color": "#9CA3AF"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "spacer",
+                  "height": 12
+                },
+                {
+                  "type": "orderCounter",
+                  "customerId": "{id}",
+                  "value": "{orders}",
+                  "min": 0,
+                  "label": "Orders",
+                  "style": {
+                    "activeColor": "#6366F1",
+                    "trackColor": "#EEF2FF",
+                    "textColor": "#1A1A2E",
+                    "labelColor": "#6B7280"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "floatingAction": {
+    "type": "fab",
+    "id": "add_customer_fab",
+    "icon": "person_add",
+    "label": "Add Customer",
+    "style": {
+      "backgroundColor": "#6366F1",
+      "foregroundColor": "#FFFFFF",
+      "borderRadius": 16
+    },
+    "onClick": {
+      "type": "navigate",
+      "route": "/add-customer"
+    }
+  }
+}
